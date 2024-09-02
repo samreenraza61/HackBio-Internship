@@ -1,4 +1,4 @@
-# Structure-Based Drug Discovery's Contribution to the Development of Cancer Treatment
+# Contribution of Structure-Based Drug Discovery to the Development of Cancer Treatment
 
 ## Background
 
