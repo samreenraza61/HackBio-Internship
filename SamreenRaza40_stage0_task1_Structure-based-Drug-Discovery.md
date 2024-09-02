@@ -1,5 +1,3 @@
-# Define the text content as a string
-markdown_content = """
 # Structure-Based Drug Discovery's Contribution to the Development of Cancer Treatment
 
 ## Background
@@ -47,10 +45,5 @@ Structure-based drug development thus uses comprehensive structural data of biol
 [11] D. P. Bottaro et al., “Identification of the hepatocyte growth factor receptor as the c-met proto-oncogene product,” Science, vol. 251, no. 4995, pp. 802–804, Feb. 1991, doi: 10.1126/science.1846706.
 
 [12] X. Liu, W. Yao, R. C. Newton, and P. A. Scherle, “Targeting the c-MET signaling pathway for cancer therapy,” Expert Opin. Investig. Drugs, vol. 17, no. 7, pp. 997–1011, Jul. 2008, doi: 10.1517/13543784.17.7.997.
-"""
 
-# Write the markdown content to a .md file
-with open("Structure_Based_Drug_Discovery.md", "w") as file:
-    file.write(markdown_content)
 
-print("Markdown file has been created successfully!")
