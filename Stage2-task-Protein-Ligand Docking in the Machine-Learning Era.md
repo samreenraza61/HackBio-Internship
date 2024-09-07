@@ -46,4 +46,4 @@ ML significantly improves docking predictions via advanced scoring functions and
 
 Yang, C., Chen, E. A., & Zhang, Y. (2022). Protein-ligand docking in the machine-learning era. *Molecules*, 27(14), 4568.
 
-## [Video Link]()
+## [Video Link]( https://www.linkedin.com/posts/midalo-shaka-ntsieni-9023a923b_bioinformatic-virtualscreening-drugdevelopment-activity-7238264375684329473-waCH?utm_source=share&utm_medium=member_ios)
