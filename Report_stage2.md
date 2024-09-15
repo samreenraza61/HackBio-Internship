@@ -1,7 +1,7 @@
 # Report
 
 **Authors (@slack):** Samreen Raza (@samRaza), Tanvi Thakur (@Jerry)  
-**GitHub:** [GitHub Repository Link]
+**GitHub:** [GitHub Repository Link](https://github.com/samreenraza61/HackBio-Internship/blob/main/Stage2_modeling%20and%20visualization.md)
 
 ## Introduction
 
@@ -21,7 +21,7 @@ AlphaFold2 integrates deep learning into protein structures in three phases: cre
 
 - **Modeling:** Swiss-Model findings reveal high quality: 98.47% of residues in the favored region, and the MolProbity score is 0.62. AlphaFold2 has strong confidence in its main structure but less so in residues, indicating flexibility.
 - **Domain:** SWISS-MODEL predicts only the DNA-binding domain, while AlphaFold2 predicts all domains.
-- **Visualization:** Alignment of predicted structures shows a low RMSD of 0.390 Å for 172 atoms, indicating high structural similarity between the two predictions.
+- **Visualization:** Alignment of predicted structures by PyMOL [11] shows a low RMSD of 0.390 Å for 172 atoms, indicating high structural similarity between the two predictions.
 - **Structural Accuracy:**
   - For the apo form, the homology model has an RMSD of 0.271 Å (high similarity) vs. AlphaFold2 (24.494 Å).
   - For the agonist-bound, both methods show high similarity, with 0.323 Å (homology) and 0.340 Å (AlphaFold2).
@@ -32,7 +32,7 @@ AlphaFold2 integrates deep learning into protein structures in three phases: cre
 Swiss-Model, which uses verified templates, is reliable for widely studied proteins, providing more accuracy. AlphaFold, on the other hand, employs deep learning and is effective when no templates are available but not as precise. In this study, Homology modeling is more effective for p53, resulting in reduced RMSD as well as greater structural similarity.
 
 ## Supplementary Files
-[Supplementary Files](https://github.com/samreenraza61/HackBio-Internship/tree/main/supplementary_files_stage2task)
+[Supplementary Files](https://github.com/samreenraza61/HackBio-Internship/tree/main/Supplementaryfiles-Stage2)
 
 ## References
 
@@ -55,3 +55,6 @@ Swiss-Model, which uses verified templates, is reliable for widely studied prote
 [9] P. Cramer, “AlphaFold2 and the future of structural biology,” Nat Struct Mol Biol, vol. 28, no. 9, pp. 704–705, Sep. 2021, doi: 10.1038/s41594-021-00650-1.
 
 [10] Z. Yang, X. Zeng, Y. Zhao, and R. Chen, “AlphaFold2 and its applications in the fields of biology and medicine,” Sig Transduct Target Ther, vol. 8, no. 1, pp. 1–14, Mar. 2023, doi: 10.1038/s41392-023-01381-z.
+
+[11] The PyMOL Molecular Graphics System, "PyMOL," [Online]. Available: https://www.pymol.org/. [Accessed: Sep. 15, 2024].
+
