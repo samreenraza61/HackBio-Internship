@@ -1,7 +1,8 @@
 # Report
 
 **Authors (@slack):** Samreen Raza (@samRaza), Tanvi Thakur (@Jerry)  
-**GitHub:** (https://github.com/samreenraza61/HackBio-Internship/blob/main/Report_stage2.md)
+**GitHub:**
+[Github_Link](https://github.com/samreenraza61/HackBio-Internship/blob/main/Report_stage2.md)
 
 ## Introduction
 
