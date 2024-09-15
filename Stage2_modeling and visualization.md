@@ -32,8 +32,7 @@ AlphaFold2 integrates deep learning into protein structures in three phases: cre
 Swiss-Model, which uses verified templates, is reliable for widely studied proteins, providing more accuracy. AlphaFold, on the other hand, employs deep learning and is effective when no templates are available but not as precise. In this study, Homology modeling is more effective for p53, resulting in reduced RMSD as well as greater structural similarity.
 
 ## Supplementary Files
-
-[Supplementary Files GitHub Link](https://github.com/your-repository/supplementary_files_stage2task)
+supplementary_files_stage2task
 
 ## References
 
