@@ -1,7 +1,7 @@
 # Report
 
 **Authors (@slack):** Samreen Raza (@samRaza), Tanvi Thakur (@Jerry)  
-**GitHub:** [GitHub Repository Link](https://github.com/samreenraza61/HackBio-Internship/blob/main/Stage2_modeling%20and%20visualization.md)
+**GitHub:** [https://github.com/samreenraza61/HackBio-Internship/blob/main/Report_stage2.md)
 
 ## Introduction
 
