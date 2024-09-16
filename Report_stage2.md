@@ -19,8 +19,8 @@ Cellular tumor antigen p53 is a transcription factor that responds to DNA damage
 
 **SWISS-MODEL** simplifies the process with integrated databases and software, making model construction and validation easier [7]. Template selection, essential for accuracy, was aided by hidden Markov models to identify structurally similar templates [8]. After evaluation, the most suitable template was chosen as shown in the table below.
 
-| Template   | Method | Coverage | Seq Identity | QMEAN | GMQUE |
-|------------|--------|----------|--------------|-------|-------|
+| Template   |   Method  | Coverage | Seq Identity | QMEAN | GMQUE |
+|------------|-----------|----------|--------------|-------|-------|
 | 7xzz.1.K   | EM, 4.07A | 1.00     | 100          | 0.93  | 0.54  |
 
 **AlphaFold2** integrates deep learning into protein structures in three phases: creating MSAs, refining them using Evoformer, and identifying 3D atom positions [9,10]. Our results provide a PAE plot, which indicates general reliability but increased errors in residues 100-200 and 250-350. These locations may require additional validation or signal flexibility.
@@ -33,12 +33,12 @@ Cellular tumor antigen p53 is a transcription factor that responds to DNA damage
 - **Domain**: SWISS-MODEL predicts only the DNA-binding domain, while AlphaFold2 predicts all domains.
 - **Visualization & Accuracy**: The table below provides a summary of structure alignment performed with PyMOL [11].
 
-| Structure             | Comparison                        | RMSD (Å)         | Atoms | Remarks             |
-|-----------------------|-----------------------------------|------------------|-------|---------------------|
-| Apo (2OCJ)            | Homology model vs AlphaFold2      | 0.271 vs 24.49   | 156 vs 220 | Large difference   |
-| Agonist-bound (4AGQ)  | Homology model vs AlphaFold2      | 0.323 vs 0.340   | 165 vs 161 | Very similar       |
-| Antagonist-bound (1YCR)| Homology model vs AlphaFold2      | 6.223 vs 10.855  | 16    | Significant difference|
-| Alignment & Visualization | Homology model vs AlphaFold2   | 0.390            | 172   | High similarity     |
+|         Structure         |          Comparison          |     RMSD (Å)     |    Atoms   |       Remarks       |
+|---------------------------|------------------------------|------------------|------------|---------------------|
+| Apo (2OCJ)                | Homology model vs AlphaFold2 | 0.271 vs 24.49   | 156 vs 220 | Large difference    |
+| Agonist-bound (4AGQ)      | Homology model vs AlphaFold2 | 0.323 vs 0.340   | 165 vs 161 | Very similar        |
+| Antagonist-bound (1YCR)   | Homology model vs AlphaFold2 | 6.223 vs 10.855  |     16     | Significant difference|
+| Alignment & Visualization | Homology model vs AlphaFold2 |      0.390       |     172    | High similarity     |
 
 ---
 
