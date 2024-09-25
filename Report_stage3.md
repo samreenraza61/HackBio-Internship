@@ -63,7 +63,7 @@ Our docking analysis identified Zeaxanthin and Leutin as the most promising phyt
 ---
 
 **Supplementaryfiles**:  
-[Suplementary_files_phase1_docking_results](https://github.com/samreenraza61/HackBio-Internship/tree/main/Supplementary_files_stage3)
+[Suplementary_files_phase1&phase_both](https://github.com/samreenraza61/HackBio-Internship/tree/main/Supplementary_files_stage3)
 
 ## References
 
@@ -310,5 +310,4 @@ Improved performance is indicated by a smaller value that is closer to zero. A n
 In terms of Fit quality, a score near 0 denotes a better fit. A mean score of -0.906 in this instance indicates that the model is functioning reasonably, if not flawlessly, as it is not too far from zero.
 We can note a variance between folds which indicates that the model may not generalize equally well across all subsets of our data, as evidenced by the variability between the folds, particularly the -3.09 score.
 
-**Supplementaryfiles**:  
-[Suplementary_files_phase2_results](https://github.com/samreenraza61/HackBio-Internship/tree/main/Supplementary_files_stage3/phase2_stage3)
+
