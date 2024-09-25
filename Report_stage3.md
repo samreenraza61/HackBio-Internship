@@ -127,7 +127,7 @@ Consists of a training and testing stage for creating models that use molecular 
  ```python
 df2_nr = df2.drop_duplicates(['canonical_smiles'])
 
-5. **Preprocessing Missing Values**
+### ** 5. Preprocessing Missing Values**
 The data goes through a number of preprocessing stages, such as removing missing values for standard_value (bioactivity measure) and canonical_smiles (chemical structure):
 
 ```python
