@@ -311,4 +311,4 @@ In terms of Fit quality, a score near 0 denotes a better fit. A mean score of -0
 We can note a variance between folds which indicates that the model may not generalize equally well across all subsets of our data, as evidenced by the variability between the folds, particularly the -3.09 score.
 
 **Supplementaryfiles**:  
-[Suplementary_files_Phase2_task](https://github.com/samreenraza61/HackBio-Internship/tree/main/Supplementary_files_stage3/phase2_stage3)
+[Suplementary_files_phase2_results](https://github.com/samreenraza61/HackBio-Internship/tree/main/Supplementary_files_stage3/phase2_stage3)
