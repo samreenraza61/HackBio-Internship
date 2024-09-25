@@ -1,6 +1,3 @@
-Here’s your entire project text converted into markdown, without any code or lines being skipped. You can copy and paste this into a `.md` file and upload it to GitHub:
-
-```markdown
 # Docking and Pipeline Implementation
 
 **Authors (@slack)**:  
@@ -97,6 +94,50 @@ Our docking analysis found that Zeaxanthin and Leutin are the most significant p
 ### Introduction
 
 This phase involves the use of machine learning and cheminformatics libraries to analyze bioactivity data for the target "Histone Deacetylase 4" (HDAC4), a known therapeutic target for cancer and other diseases.
+
+---
+## Methods
+
+### Imports from Libraries
+
+The following libraries were utilized:
+
+- **chembl-webresource-client**: This library was used to obtain bioactivity information from the ChEMBL database.
+- **RDKit**: A cheminformatics toolkit, specifically used for the creation and management of molecular descriptors.
+- **Mordred**: A molecular descriptor generation tool that computes various molecular features.
+
+---
+
+### Target Search
+
+The script searches for and retrieves bioactivity data for "Histone Deacetylase 4" using the `chembl-webresource-client` library. This allows for fetching relevant bioactivity information, essential for building the dataset.
+
+---
+
+### Descriptor Calculation
+
+The script computes molecular descriptors for each compound using **RDKit** and **Mordred**. These descriptors represent various molecular features and will likely be used as input features for machine learning models.
+
+---
+
+### Bioactivity Data Retrieval
+
+After determining the target (HDAC4), the script retrieves bioactivity data. This data will be used to build a dataset that connects molecular descriptors (features) to bioactivity outcomes (target).
+
+---
+
+### Preprocessing and Model Development
+
+The script contains code to prepare molecular data for machine learning models. This involves several preprocessing techniques, including molecular descriptor calculation and data cleaning, ensuring the dataset is ready for training.
+
+---
+
+### Machine Learning Phases
+
+The machine learning workflow consists of two primary stages:
+
+- **Training**: A portion of the dataset is used to train models that leverage molecular descriptors to predict bioactivity.
+- **Testing**: The remaining dataset is used to evaluate the performance of the trained models, ensuring they generalize well to unseen data.
 
 ---
 
