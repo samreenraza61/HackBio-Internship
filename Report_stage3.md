@@ -127,7 +127,7 @@ Consists of a training and testing stage for creating models that use molecular 
  ```python
 df2_nr = df2.drop_duplicates(['canonical_smiles'])
 
-### **5. Preprocessing Missing Value**
+5. Preprocessing Missing Value
 
 The data goes through a number of preprocessing stages, such as removing missing values for standard_value (bioactivity measure) and canonical_smiles (chemical structure):
 
@@ -136,8 +136,10 @@ The data goes through a number of preprocessing stages, such as removing missing
 df2 = df[df.standard_value.notna()]
 df2 = df2[df.canonical_smiles.notna()]
 
-6. **Bioactivity Classification**
- Compounds are classified based on IC50 values into three categories:
+
+6. Bioactivity Classification
+
+Compounds are classified based on IC50 values into three categories:
 
 Inactive: IC50 ≥ 10,000 nM.
 Active: IC50 ≤ 1,000 nM.
@@ -156,7 +158,10 @@ for i in df3.standard_value:
         bioactivity_threshold.append("intermediate")
 bioactivity_class = pd.Series(bioactivity_threshold, name='class')
 df4 = pd.concat([df3, bioactivity_class], axis=1)
-7. **Lipinski’s Rule of Five**
+
+
+7. Lipinski’s Rule of Five
+
 The script calculates molecular descriptors based on Lipinski’s Rule of Five, which is used to assess the drug-likeness of a compound:
 
 python
@@ -183,14 +188,18 @@ def lipinski(smiles, verbose=False):
     descriptors = pd.DataFrame(data=baseData, columns=columnNames)
     return descriptors
 
-8. **Combine Bioactivity Data and Lipinski Values**
+
+8. Combine Bioactivity Data and Lipinski Values
+
 The bioactivity data table is combined with Lipinski descriptor values:
 
 python
 # Combine df4 table with lipinski value table
 df_combined = pd.concat([df4, df_lipinski], axis=1)
 
-9. **Convert IC50 to pIC50**
+
+9. Convert IC50 to pIC50
+
  To allow the data to be more uniformly distributed, pIC50 is calculated from the previous standard_value column:
 
 python
@@ -206,7 +215,10 @@ def pIC50(input):
     input['pIC50'] = pIC50
     x = input.drop('standard_value', axis=1)
     return x
-10. **Exploratory Data Analysis via Lipinski Descriptors**
+
+
+10. Exploratory Data Analysis via Lipinski Descriptors
+
 The script performs exploratory data analysis via visualization of Lipinski descriptors:
 
 python
@@ -220,7 +232,10 @@ And also generates a scatter plot for MW vs LogP:
 
 python
 sns.scatterplot(x='MW', y='LogP', data=df_final, hue='class', size='pIC50', edgecolor='black', alpha=0.7)
-11. **Calculate Descriptors using RDKit**
+
+
+11. Calculate Descriptors using RDKit
+
  RDKit is used to calculate 200 molecular descriptors:
 
 python
@@ -234,7 +249,10 @@ def RDkit_descriptors(smiles):
         descriptors = calc.CalcDescriptors(mol)
         Mol_descriptors.append(descriptors)
     return Mol_descriptors, desc_names
-12. **Training and Testing Phase**
+
+
+12. Training and Testing Phase
+
  The Random Forest Regressor Model is used for training and testing:
 
 python
@@ -250,7 +268,10 @@ If Ipc column exists, it is removed:
 python
 if 'Ipc' in X_train.columns:
     X_train = X_train.drop('Ipc', axis=1)
-13. **Model Evaluation**
+
+
+13. Model Evaluation
+
  After training, the model is evaluated using MSE, MAE, and R-squared. Cross-validation is also performed:
 
 python
@@ -276,9 +297,9 @@ Results:
 
 Cross-validation scores: [-0.52565608, -0.15397229, -0.51313287, -3.09446009, -0.24337113]
 Mean cross-validation score: -0.906518.
-Conclusion
 
-Importance of features and bioactivity influence 
+
+3. Importance of features and bioactivity influence 
 
 LogP and Molecular Weight were quite predictive, probably because they affect how well a chemical interacts with the target protein.For example, LogP value of 1,4296 indicates that the compound with chemical id :CHEMBL343448 is expected to show better bioactivity as they can balance between solubility and membrane permeability which is further validates by the bioactivity_class being active.
 
