@@ -92,6 +92,7 @@ import pandas as pd
 import numpy as np
 
 # Inspired by: https://codeocean.com/explore/capsules?query=tag:data-curation
+# Addition of Lipinski Descriptors
 def lipinski(smiles, verbose=False):
 
     moldata= []
@@ -126,22 +127,28 @@ def lipinski(smiles, verbose=False):
 
     return descriptors
 
+#Run lipinski using canonical_smiles
 df_lipinski = lipinski(df4.canonical_smiles)
 
+#View lipinski Descriptors
 df_lipinski.head()
 
 df4.head()
 
+#Combine df4 table with lipinski value table
 df_combined = pd.concat([df4,df_lipinski], axis=1)
 
+#View new combined table
 df_combined.head()
 
+#Describe combines table with standard value
 df_combined.standard_value.describe()
 
 """Convert IC50 to pIC50"""
 
+#Import library
 import numpy as np
-
+#convert IC50 to pIC50
 def pIC50(input):
     pIC50 = []
 
@@ -161,14 +168,17 @@ def pIC50(input):
 df_final = pIC50(df_combined)
 df_final
 
+#Describe the pIC50 column
 df_final.pIC50.describe()
 
 """Chemical Space Analysis"""
 
+#Import Library for Data Expoloration
 import seaborn as sns
 sns.set(style='ticks')
 import matplotlib.pyplot as plt
 
+#Plot graph for bioactivity class
 plt.figure(figsize=(5.5, 6.5))
 
 sns.countplot(x='class', data=df_final, edgecolor='black', hue = 'class')
@@ -180,6 +190,7 @@ plt.ylabel('Frequency', fontsize=14, fontweight='bold')
 
 """Scatter plot of MV versus LogP"""
 
+#Scatter Plot for MV vs LogP
 plt.figure(figsize=(5.5, 5.5))
 
 sns.scatterplot(x='MW', y='LogP', data=df_final, hue='class', size='pIC50', edgecolor='black', alpha=0.7)
