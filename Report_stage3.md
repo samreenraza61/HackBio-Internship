@@ -93,6 +93,7 @@ Our docking analysis found that Zeaxanthin and Leutin are the most significant p
 8. Jendele L, Krivak R, Skoda P, Novotny M, Hoksza D. PrankWeb: a web server for ligand binding site prediction and visualization. *Nucleic Acids Res*. 2019 Jul 2;47(W1):W345-W349. doi: 10.1093/nar/gkz424.
 
 ---
+
 # Phase 2 Report
 
 ## Introduction
@@ -131,49 +132,54 @@ The preprocessing process involves searching for the target protein Histone Deac
 A new column **class** is added to represent these categories. The code calculates molecular descriptors based on Lipinski's rule of five to assess drug-likeness. The data is then converted to pIC50 to ensure uniform distribution. 
 
 ### Exploratory Data Analysis via Lipinski Descriptors
-We calculated descriptors using RDKit by first importing the required modules from RDKit and then converting a SMILES string to an RDKit molecule object. For example:
-```python
+We calculated descriptors using RDKit by first importing the required modules from RDKit and then converting a SMILES string to an RDKit molecule object. 
+
+For example:
+
 from rdkit import Chem
 mol = Chem.MolFromSmiles('C=CCC')
 
 We calculated 200 descriptors for each molecule.
 
-## Training and Testing Phase
+### Training and Testing Phase
 
-To perform modeling with the **Random Forest Regressor**, we began with importing the necessary library, followed by the removal of the IPC table due to the presence of infinity values, which resulted in an error when run in the model. We defined **X** as all other columns in the dataframe and **Y** as the pIC50 column. The data was split into training (80%) and testing (20%) sets prior to modeling and splitting. The Random Forest Regressor is modeled on the X and Y training set.
+To perform modeling with the **Random Forest Regressor**, we began by importing the necessary library, followed by the removal of the IPC table due to the presence of infinity values, which resulted in an error when run in the model. We defined **X** as all other columns in the dataframe and **Y** as the pIC50 column. The data was split into training (80%) and testing (20%) sets prior to modeling and splitting. The Random Forest Regressor is modeled on the X and Y training set.
 
 After training, we evaluate the model using **MSE**, **MAE**, and **R-squared**. The output for the evaluation was as follows:
 - **MSE**: 1.434448392089781
 - **MAE**: 0.9173858303675583
 - **R-squared**: 0.2674666489747807
 
-The Random Forest Regressor was also used to model the pIC50 of the docked ligands generated from the SMILES on PubChem.
+**Random Forest** Regressor was also used to model the pIC50 of the docked ligands generated from the SMILES on PubChem.
 
-Also, cross-validation was performed on the dataset to assess generalization, yielding the output:
-- **Cross-validation scores**: [-0.52565608, -0.15397229, -0.51313287, -3.09446009, -0.24337113]
-- **Mean cross-validation score**: -0.906118493479025
+Also, **cross-validation** was performed on the data set  to assess generalization.Yielding the output:
 
-**Importance of Features and Bioactivity Influence**
+- **Cross-validation scores:** [-0.52565608 -0.15397229 -0.51313287 -3.09446009 -0.24337113]
+- **Mean cross-validation score:** -0.906118493479025
 
-LogP and Molecular Weight were quite predictive, probably because they affect how well a chemical interacts with the target protein. For example, a LogP value of 1.4296 indicates that the compound with chemical ID: CHEMBL343448 is expected to show better bioactivity as it can balance between solubility and membrane permeability, which is further validated by the bioactivity class being active.
+### **Importance of features and bioactivity influence**
 
-Better model performance is indicated by a lower MSE. In this instance, there is an average squared error of 1.434 between the model's predictions and the actual results. The mean absolute error (MAE) indicates that, on average, the forecasts are 0.917 units off from the genuine values. With an R-squared value of 0.267, the model explains 26.7% of the variability in the data, indicating a weak fit.
+**LogP** and **Molecular Weight** were quite predictive, probably because they affect how well a chemical interacts with the target protein. For example, LogP value of 1,4296 indicates that the compound with chemical id :CHEMBL343448 is expected to show better bioactivity as they can balance between solubility and membrane permeability which is further validates by the bioactivity_class being active.
 
-When utilizing the scoring='neg_mean_squared_error' option (as in the previous code), cross-validation typically yields negative values for MSE. Improved performance is indicated by a smaller value that is closer to zero. A negative value nearer zero denotes a smaller prediction error because the mean square error is often positive.
+**Better model performance** is indicated by a lower MSE. In this instance, there is an average squared error of 1.434 between the model's predictions and the actual results.The mean absolute error (MAE) between the expected and actual values indicates that, on average, the forecasts are 0.917 units off from the genuine values.With an R2 value of 0.267, the model is able to explain 26.7% of the variability in the data, indicating a pretty weak fit.
 
-In terms of fit quality, a score near 0 denotes a better fit. A mean score of -0.906 in this instance indicates that the model is functioning reasonably, if not flawlessly, as it is not too far from zero. We can note a variance between folds which indicates that the model may not generalize equally well across all subsets of our data, as evidenced by the variability between the folds, particularly the -3.09 score.
+When utilizing the scoring='neg_mean_squared_error' option (as in the previous code), cross-validation typically yields negative values for MSE, which is why negative MSE is utilized.
 
-**Conclusion**
+**Improved performance** is indicated by a smaller value that is closer to zero. A negative value nearer zero denotes a smaller prediction error because the mean square error is often positive.
 
-The model's performance showed modest predictive power, with a weak fit and challenges in generalization. Improvements are needed for better performance and generalization. Future steps may include refining feature selection, testing alternative algorithms, or increasing the training dataset's size and diversity. The model's predictive capacity is primarily related to LogP and Molecular Weight properties.
+In terms of **Fit quality**, a score near 0 denotes a better fit. A mean score of -0.906 in this instance indicates that the model is functioning reasonably, if not flawlessly, as it is not too far from zero.
 
-Note: All images related to this phase of the task are present in the supplementary file folder for Phase 2, Stage 3.
+We can note a variance between folds which indicates that the model may not generalize equally well across all subsets of our data, as evidenced by the variability between the folds, particularly the -3.09 score.
 
-### References
+### **Conclusion:**
+The model's performance showed modest predictive power, with weak fit and challenges in generalization. Improvements are needed for better performance and generalization. Future steps may include refining feature selection, testing alternative algorithms, or increasing the training dataset's size and diversity. The model's predictive capacity is primarily related to LogP and Molecular Weight properties.
+
+**Note:** All images related to this phase of the task are present in the supplementary file folder for Phase 2, Stage 3.
+
+**References**
 
 1. Mendez D, Gaulton A, Bento AP, Chambers J, et al. ChEMBL: towards direct deposition of bioassay data. *Nucleic Acids Res*. 2019 Jan;47(D1):D930–D940. doi: 10.1093/nar/gky1075.
 2. Landrum, G., et al. RDKit documentation. Available at: https://www.rdkit.org/docs/.
-
 
 ### **Supplementary_files**:  
 [Suplementary_files_phase1&phase2_both](https://github.com/samreenraza61/HackBio-Internship/tree/main/Supplementary_files_stage3)
