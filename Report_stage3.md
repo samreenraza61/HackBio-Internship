@@ -58,7 +58,7 @@ Using PubChem [3], we selected 50 phytochemicals from _Camellia sinensis_, a wid
 
 - Dock the phytochemical library with 6FYZ in PyRx (or AutoDock Vina), noting binding affinities and interactions in Table 2.
 
-## Results
+#### Results
 - Compile all docking-generated tables and images.
 
 ## Results
