@@ -56,12 +56,15 @@ Using PubChem [3], we selected 50 phytochemicals from _Camellia sinensis_, a wid
 
 #### Molecular Docking
 
-- Dock the phytochemical library with 6FYZ in PyRx (or AutoDock Vina), noting binding affinities and interactions in Table 2.
-
+- Dock the phytochemical library with 6FYZ in PyRx (or AutoDock Vina), noting binding affinities and interactions.
+  
 #### Results
 - Compile all docking-generated tables and images.
 
 ## Results
+
+Includes visuals of protein active sites, grid selection, top two ligand-protein interactions, and other input/output files. A phytochemical library listing 50 compounds' structures and action mechanisms is also provided. All these resources are accessible via our GitHub repository for further review. 
+
 
 | Ligand                               | Binding Affinity | RMSD/ub | RMSD/lb |
 |--------------------------------------|------------------|---------|---------|
