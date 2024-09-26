@@ -131,13 +131,16 @@ The preprocessing process involves searching for the target protein Histone Deac
 
 A new column **class** is added to represent these categories. The code calculates molecular descriptors based on Lipinski's rule of five to assess drug-likeness. The data is then converted to pIC50 to ensure uniform distribution. 
 
+![pIC50 table](https://github.com/user-attachments/assets/62c81e50-2140-4fda-9446-d0f5897dfd9a)
+
 ### Exploratory Data Analysis via Lipinski Descriptors
 We calculated descriptors using RDKit by first importing the required modules from RDKit and then converting a SMILES string to an RDKit molecule object. 
 
 For example:
 
-from rdkit import Chem
-mol = Chem.MolFromSmiles('C=CCC')
+![pfht1_plot_bioactivity_class](https://github.com/user-attachments/assets/f114c7a7-22ce-44c4-a1b7-81eab6399425)
+
+![plot_MW_vs_LogP](https://github.com/user-attachments/assets/ea8bf3a0-6ed3-4495-9ad3-6d23424d6fdd)
 
 We calculated 200 descriptors for each molecule.
 
@@ -151,6 +154,8 @@ After training, we evaluate the model using **MSE**, **MAE**, and **R-squared**.
 - **R-squared**: 0.2674666489747807
 
 **Random Forest** Regressor was also used to model the pIC50 of the docked ligands generated from the SMILES on PubChem.
+
+![distribution of predicted pIC50 of docked ligands](https://github.com/user-attachments/assets/7262fb63-ca01-4987-aff4-031b0c99c5f4)
 
 Also, **cross-validation** was performed on the data set  to assess generalization.Yielding the output:
 
