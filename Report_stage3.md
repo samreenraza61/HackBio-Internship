@@ -93,340 +93,86 @@ Our docking analysis found that Zeaxanthin and Leutin are the most significant p
 8. Jendele L, Krivak R, Skoda P, Novotny M, Hoksza D. PrankWeb: a web server for ligand binding site prediction and visualization. *Nucleic Acids Res*. 2019 Jul 2;47(W1):W345-W349. doi: 10.1093/nar/gkz424.
 
 ---
+# Phase 2 Report
 
-## Phase 2
+## Introduction
+This report involves using machine learning and cheminformatics libraries to analyze bioactivity data for the target **Histone Deacetylase 4 (HDAC4)**, a known therapeutic target for cancer and other diseases.
 
-### Introduction
-
-This phase involves the use of machine learning and cheminformatics libraries to analyze bioactivity data for the target "Histone Deacetylase 4" (HDAC4), a known therapeutic target for cancer and other diseases.
-
----
 ## Methods
 
 ### Imports from Libraries
-
-The following libraries were utilized:
-
-- **chembl-webresource-client**: This library was used to obtain bioactivity information from the ChEMBL database.
-- **RDKit**: A cheminformatics toolkit, specifically used for the creation and management of molecular descriptors.
-- **Mordred**: A molecular descriptor generation tool that computes various molecular features.
-
----
+- **chemical-web-resource-client**: Used to obtain bioactivity information from the ChEMBL database.
+- **RDKit**: A cheminformatics toolkit, specifically for the creation and management of molecular descriptors.
+- **Mordred**: A molecular descriptor generation tool.
 
 ### Target Search
-
-The script searches for and retrieves bioactivity data for "Histone Deacetylase 4" using the `chembl-webresource-client` library. This allows for fetching relevant bioactivity information, essential for building the dataset.
-
----
+The script looks for and retrieves the bioactivity data for "Histone Deacetylase 4" using the chembl-webresource-client.
 
 ### Descriptor Calculation
-
-The script computes molecular descriptors for each compound using **RDKit** and **Mordred**. These descriptors represent various molecular features and will likely be used as input features for machine learning models.
-
----
+The script computes each compound's molecular descriptors using RDKit and Mordred; these features will likely be utilized in machine learning.
 
 ### Bioactivity Data Retrieval
-
-After determining the target (HDAC4), the script retrieves bioactivity data. This data will be used to build a dataset that connects molecular descriptors (features) to bioactivity outcomes (target).
-
----
+The script retrieves bioactivity data after determining the target, most likely to build a dataset that connects molecular characteristics to bioactivity.
 
 ### Preprocessing and Model Development
-
-The script contains code to prepare molecular data for machine learning models. This involves several preprocessing techniques, including molecular descriptor calculation and data cleaning, ensuring the dataset is ready for training.
-
----
+The script contains code to prepare molecular data for machine learning models by preprocessing it using techniques like descriptor creation.
 
 ### Machine Learning Phases
+This consists of a training and testing stage for creating models that use molecular descriptors to predict bioactivity.
 
-The machine learning workflow consists of two primary stages:
+## Results
 
-- **Training**: A portion of the dataset is used to train models that leverage molecular descriptors to predict bioactivity.
-- **Testing**: The remaining dataset is used to evaluate the performance of the trained models, ensuring they generalize well to unseen data.
+### Codes and Output of Preprocessing Steps
+The preprocessing process involves searching for the target protein Histone Deacetylase 4 in the ChEMBL database, filtering bioactivity data, and removing duplicate entries using SMILES. The data is classified into three categories: 
+- **Inactive** (IC50 ≥ 10,000 nM)
+- **Active** (IC50 ≤ 1,000 nM)
+- **Intermediate** (IC50 < 10,000 nM)
 
----
+A new column **class** is added to represent these categories. The code calculates molecular descriptors based on Lipinski's rule of five to assess drug-likeness. The data is then converted to pIC50 to ensure uniform distribution. 
 
-### 3. Results
-
-#### Codes and Output of Preprocessing Steps:
-
-The Preprocessing steps begin with searching for the target protein Histone Deacetylase 4 on the ChEMBL database.  
-Assign the first entry which corresponds to the target protein to the `selected_target` variable.  
-To find the inhibitory concentration, or IC50 values, the bioactivity data for the target "Histone Deacetylase 4" is filtered using the code:
-
+### Exploratory Data Analysis via Lipinski Descriptors
+We calculated descriptors using RDKit by first importing the required modules from RDKit and then converting a SMILES string to an RDKit molecule object. For example:
 ```python
-# filter bioactivity data using IC50 column
-data = activity.filter(target_chembl_id=selected_target).filter(standard_type="IC50") 
-```
+from rdkit import Chem
+mol = Chem.MolFromSmiles('C=CCC')
 
-To guarantee the originality of compounds, duplicate entries are removed using SMILES by running the code:
+We calculated 200 descriptors for each molecule.
 
-```python
-df2_nr = df2.drop_duplicates(['canonical_smiles'])
-```
+## Training and Testing Phase
 
-The data goes through a number of preprocessing stages, such as:
+To perform modeling with the **Random Forest Regressor**, we began with importing the necessary library, followed by the removal of the IPC table due to the presence of infinity values, which resulted in an error when run in the model. We defined **X** as all other columns in the dataframe and **Y** as the pIC50 column. The data was split into training (80%) and testing (20%) sets prior to modeling and splitting. The Random Forest Regressor is modeled on the X and Y training set.
 
-- Standard_value (bioactivity measure) and canonical_smiles (chemical structure) missing value removal:
+After training, we evaluate the model using **MSE**, **MAE**, and **R-squared**. The output for the evaluation was as follows:
+- **MSE**: 1.434448392089781
+- **MAE**: 0.9173858303675583
+- **R-squared**: 0.2674666489747807
 
-```python
-# Data pre-processing of the bioactivity data
-df2 = df[df.standard_value.notna()]
-df2 = df2[df.canonical_smiles.notna()]
-```
+The Random Forest Regressor was also used to model the pIC50 of the docked ligands generated from the SMILES on PubChem.
 
-- Combine the 3 columns and bioactivity_class into a DataFrame:
+Also, cross-validation was performed on the dataset to assess generalization, yielding the output:
+- **Cross-validation scores**: [-0.52565608, -0.15397229, -0.51313287, -3.09446009, -0.24337113]
+- **Mean cross-validation score**: -0.906118493479025
 
-```python
-selection = ['molecule_chembl_id','canonical_smiles','standard_value']
-df3 = df2_nr[selection]
-```
+**Importance of Features and Bioactivity Influence**
 
-Compounds are classified based on IC50 values into three categories:
+LogP and Molecular Weight were quite predictive, probably because they affect how well a chemical interacts with the target protein. For example, a LogP value of 1.4296 indicates that the compound with chemical ID: CHEMBL343448 is expected to show better bioactivity as it can balance between solubility and membrane permeability, which is further validated by the bioactivity class being active.
 
-- Inactive: IC50 ≥ 10,000 nM.
-- Active: IC50 ≤ 1,000 nM.
-- Intermediate: 1,000 nM < IC50 < 10,000 nM.
+Better model performance is indicated by a lower MSE. In this instance, there is an average squared error of 1.434 between the model's predictions and the actual results. The mean absolute error (MAE) indicates that, on average, the forecasts are 0.917 units off from the genuine values. With an R-squared value of 0.267, the model explains 26.7% of the variability in the data, indicating a weak fit.
 
-A new column class is added to the dataset to represent these categories using the following code:
-
-```python
-# Addition of class column 
-bioactivity_threshold = []
-for i in df3.standard_value:
-  if float(i) >= 10000:
-    bioactivity_threshold.append("inactive")
-  elif float(i) <= 1000:
-    bioactivity_threshold.append("active")
-  else:
-    bioactivity_threshold.append("intermediate")
-
-bioactivity_class = pd.Series(bioactivity_threshold, name='class')
-df4 = pd.concat([df3, bioactivity_class], axis=1)
-```
-
-The script below calculates molecular descriptors based on Lipinski’s rule of five, which is used to assess the drug-likeness of a compound:
-
-```python
-# Inspired by: https://codeocean.com/explore/capsules?query=tag
-
-:data-curation
-# Addition of Lipinski Descriptors
-def lipinski(smiles, verbose=False):
-    moldata= []
-    for elem in smiles:
-        # Check if elem is a valid SMILES string before converting
-        if isinstance(elem, str):
-            mol=Chem.MolFromSmiles(elem)
-            moldata.append(mol)
-    baseData= np.arange(1,1)
-    i=0
-    for mol in moldata:
-        desc_MolWt = Descriptors.MolWt(mol)
-        desc_MolLogP = Descriptors.MolLogP(mol)
-        desc_NumHDonors = Lipinski.NumHDonors(mol)
-        desc_NumHAcceptors = Lipinski.NumHAcceptors(mol)
-        row = np.array([desc_MolWt, desc_MolLogP, desc_NumHDonors, desc_NumHAcceptors])
-        if(i==0):
-            baseData=row
-        else:
-            baseData=np.vstack([baseData, row])
-        i=i+1
-    columnNames=["MW","LogP","NumHDonors","NumHAcceptors"]
-    descriptors = pd.DataFrame(data=baseData,columns=columnNames)
-    return descriptors
-```
-
-Run Lipinski using canonical_smiles:
-
-```python
-df_lipinski = lipinski(df4.canonical_smiles)
-```
-
-Combine Bioactivity data table and Lipinski values:
-
-```python
-# Combine df4 table with lipinski value table
-df_combined = pd.concat([df4,df_lipinski], axis=1)
-```
-
-Convert IC50 to pIC50: This is to allow the data to be more uniformly distributed. pIC50 is calculated from the previous standard_value column:
-
-```python
-# Import library
-import numpy as np
-
-# Convert IC50 to pIC50
-def pIC50(input):
-    pIC50 = []
-    for i in input['standard_value']:
-        try:
-            i = float(i)
-        except ValueError:
-            molar = 0
-        molar = i*(10**-9)  # Converts nM to M
-        pIC50.append(-np.log10(molar))
-    input['pIC50'] = pIC50
-    x = input.drop('standard_value', axis = 1)
-    return x
-```
-
-Describe the `pIC50` column:
-
-```python
-df_final.pIC50.describe()
-```
-
-Exploratory Data Analysis via Lipinski descriptors:
-
-```python
-# Import Library for Data Exploration
-import seaborn as sns
-sns.set(style='ticks')
-import matplotlib.pyplot as plt
-
-# Plot graph for bioactivity class
-plt.figure(figsize=(5.5, 6.5))
-sns.countplot(x='class', data=df_final, edgecolor='black', hue = 'class')
-plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
-plt.ylabel('Frequency', fontsize=14, fontweight='bold')
-
-# Scatter Plot for MV vs LogP
-plt.figure(figsize=(5.5, 5.5))
-sns.scatterplot(x='MW', y='LogP', data=df_final, hue='class', size='pIC50', edgecolor='black', alpha=0.7)
-plt.xlabel('MW', fontsize=14, fontweight='bold')
-plt.ylabel('LogP', fontsize=14, fontweight='bold')
-plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0)
-```
-
-Calculate descriptors using RDKit:
-
-```python
-# Calculate descriptor using RDKit
-def RDkit_descriptors(smiles):
-    mols = [Chem.MolFromSmiles(i) for i in smiles]
-    calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
-    desc_names = calc.GetDescriptorNames()
-
-    Mol_descriptors =[]
-    for mol in mols:
-        # add hydrogens to molecules
-        mol=Chem.AddHs(mol)
-        # Calculate all 200 descriptors for each molecule
-        descriptors = calc.CalcDescriptors(mol)
-        Mol_descriptors.append(descriptors)
-    return Mol_descriptors,desc_names
-```
-
-Function call:
-
-```python
-Mol_descriptors,desc_names = RDkit_descriptors(df_cleaned["canonical_smiles"])
-```
-
-Calculate all 200 descriptors for each molecule:
-
-```python
-df_with_200_descriptors = pd.DataFrame(Mol_descriptors,columns=desc_names)
-df_with_200_descriptors
-```
-
-### Training and Testing Phase
-
-Import library for Random Forest Regressor Model:
-
-```python
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-```
-
-Define `X` and `Y`:
-
-```python
-X= fp_pIC.drop(columns=['pIC50'])
-Y=fp_pIC.pIC50
-```
-
-Split the data into training (80%) and testing sets (20%):
-
-```python
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
-```
-
-Remove the column `Ipc` from `X_train` data:
-
-```python
-if 'Ipc' in X_train.columns:
-  X_train = X_train.drop('Ipc', axis=1)
-```
-
-Train Model to Data:
-
-```python
-Model= RandomForestRegressor(n_estimators=100, random_state=42)
-Model.fit(X_train, Y_train)
-```
-
-### Model Evaluation
-
-After training, we will evaluate the model using MSE, MAE, and R-squared. Also, we will perform cross-validation to assess generalization:
-
-```python
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-
-# Predictions on the test set
-y_pred = Model.predict(X_test)
-
-# Calculate evaluation metrics
-mse = mean_squared_error(Y_test, y_pred)
-mae = mean_absolute_error(Y_test, y_pred)
-r2 = r2_score(Y_test, y_pred)
-print(f"MSE: {mse}, MAE: {mae}, R-squared: {r2}")
-```
-
-Output:
-
-```plaintext
-MSE: 1.434448392089781, MAE: 0.9173858303675583, R-squared: 0.2674666489747807
-```
-
-### Cross Validation
-
-```python
-from sklearn.model_selection import cross_val_score
-
-# Cross-validation of model
-cv_scores = cross_val_score(Model, X, Y, cv=5)  # 5-fold cross-validation
-print(f"Cross-validation scores: {cv_scores}")
-print(f"Mean cross-validation score: {np.mean(cv_scores)}")
-```
-
-Output:
-
-```plaintext
-Cross-validation scores: [-0.52565608 -0.15397229 -0.51313287 -3.09446009 -0.24337113]
-Mean cross-validation score: -0.906118493479025
-```
-
----
-
-### Importance of Features and Bioactivity Influence
-
-LogP and Molecular Weight were quite predictive, probably because they affect how well a chemical interacts with the target protein. For example, LogP value of 1.4296 indicates that the compound with chemical id `CHEMBL343448` is expected to show better bioactivity as they can balance between solubility and membrane permeability, which is further validated by the bioactivity_class being active.
-
-Better model performance is indicated by a lower MSE. In this instance, there is an average squared error of 1.434 between the model's predictions and the actual results. The mean absolute error (MAE) between the expected and actual values indicates that, on average, the forecasts are 0.917 units off from the genuine values. With an R2 value of 0.267, the model is able to explain 26.7% of the variability in the data, indicating a weak fit.
-
-When utilizing the `scoring='neg_mean_squared_error'` option (as in the previous code), cross-validation typically yields negative values for MSE, which is why negative MSE is utilized. Improved performance is indicated by a smaller value that is closer to zero. A negative value nearer zero denotes a smaller prediction error because the mean square error is often positive.
+When utilizing the scoring='neg_mean_squared_error' option (as in the previous code), cross-validation typically yields negative values for MSE. Improved performance is indicated by a smaller value that is closer to zero. A negative value nearer zero denotes a smaller prediction error because the mean square error is often positive.
 
 In terms of fit quality, a score near 0 denotes a better fit. A mean score of -0.906 in this instance indicates that the model is functioning reasonably, if not flawlessly, as it is not too far from zero. We can note a variance between folds which indicates that the model may not generalize equally well across all subsets of our data, as evidenced by the variability between the folds, particularly the -3.09 score.
 
----
+**Conclusion**
+
+The model's performance showed modest predictive power, with a weak fit and challenges in generalization. Improvements are needed for better performance and generalization. Future steps may include refining feature selection, testing alternative algorithms, or increasing the training dataset's size and diversity. The model's predictive capacity is primarily related to LogP and Molecular Weight properties.
+
+Note: All images related to this phase of the task are present in the supplementary file folder for Phase 2, Stage 3.
 
 ### References
 
 1. Mendez D, Gaulton A, Bento AP, Chambers J, et al. ChEMBL: towards direct deposition of bioassay data. *Nucleic Acids Res*. 2019 Jan;47(D1):D930–D940. doi: 10.1093/nar/gky1075.
 2. Landrum, G., et al. RDKit documentation. Available at: https://www.rdkit.org/docs/.
-
 
 
 ### **Supplementary_files**:  
