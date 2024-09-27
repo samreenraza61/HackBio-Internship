@@ -137,7 +137,13 @@ Consists of a training and testing stage for creating models that use molecular 
 
 The preprocessing process involves searching for the target protein Histone Deacetylase 4 on the chembl database, filtering bioactivity data, and removing duplicate entries using SMILES. The data is then classified into three categories: Inactive (IC50 ≥ 10,000 nM), Active (IC50 ≤ 1,000 nM), and Intermediate (IC50 < 10,000 nM). A new column class is added to represent these categories. A code scripted calculates molecular descriptors based on Lipinski's rule of five to assess drug-likeness. We introduced code that sets up molecular descriptor calculations using RDKit.The data is then converted to pIC50 to ensure uniform distribution. The figure below describes the pIC50 column.
 
+![pIC50 table](https://github.com/user-attachments/assets/2b5792f8-6dcd-45ab-925d-098085068854)
+
 Exploratory Data Analysis via lipinski descriptors
+
+![pfht1_plot_bioactivity_class](https://github.com/user-attachments/assets/b347b594-2813-41c0-91f8-90a34fedebb5)
+
+![plot_MW_vs_LogP](https://github.com/user-attachments/assets/0e9f3c79-d2ee-4764-a8f3-3d0a55445936)
 
 Functions were imported  from the RDKit library to handle SMILES strings and visualize molecular structures.The list of SMILES strings are standardized  into their canonical form, including the docked ligands Zeaxanthin and Lutein. Lipinski and Descriptor function were ran on the smiles of the docked ligands including the chembl molecules with 200 descriptors for each molecule. The pIC50 column was added to the ligand table, the cleaning process consisted of removing duplicated columns, removing NaN,removal of the ‘Ipc’ table to ensure no Infinity values are detected during modeling.
 
@@ -148,6 +154,9 @@ The information was then concatenated forming the “final_ligand_combine” tab
 To perform modeling with Random Forest Regressor, we began with importing the necessary library.We define X as all other columns on the dataframe and Y as the pIC50 column. The data was split into training (80%) and testing (20%) sets prior to modeling and splitting.The Random Forest Regressor Model was fitted on the X and Y training set.”y_pred” variable was a result of model prediction on the X test set. 
 
 Random Forest Regressor was also used to model the pIC50 of the docked ligands (Zeaxanthin and Lutein)generated from the SMILES on PubChem.The figure below gives better visualization of the pIC50 frequency distribution for the docked ligands,with the output:array([4.47204827, 5.68563597]
+
+![Predicted value for Ligands](https://github.com/user-attachments/assets/a2e16eeb-9a36-427b-a492-6ea40c15797f)
+
 
 After training, we evaluate the model using **MSE**, **MAE**, and **R-squared**. The output for the evaluation was as follows:
 MSE: 1.434448392089781, MAE: 0.9173858303675583, R-squared: 0.2674666489747807
